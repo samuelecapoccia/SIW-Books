@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libri - SIW Books</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/stile.css" rel="stylesheet">
+    <style>
+        /* Stile personalizzato per i bottoni quadrati */
+        .btn-square {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            border-radius: 5px;
+            font-size: 20px;
+            text-align: center;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Bottoni di modifica ed eliminazione */
+        .btn-edit {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+
+        /* Effetto hover per i bottoni */
+        .btn-edit:hover {
+            background-color: #0056b3; /* Blu più scuro */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Aggiunge un'ombra */
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333; /* Rosso più scuro */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Aggiunge un'ombra */
+        }
+
+        /* Creiamo l'icona matita con CSS */
+        .icon-edit::before {
+            content: "\270E"; /* Unicode della matita */
+            font-size: 18px;
+        }
+
+        /* Creiamo l'icona cestino con CSS */
+        .icon-delete::before {
+            content: "\1F5D1"; /* Unicode del cestino */
+            font-size: 18px;
+        }
+
+        /* Stile personalizzato per il bottone "Aggiungi Nuovo Libro" */
+        .card-add-book {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            color: #007bff;
+            border: 3px solid #007bff;
+            border-radius: 10px;
+            height: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-add-book:hover {
+            background-color: rgba(0, 123, 255, 0.1); /* Un leggero blu trasparente quando hoverato */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Effetto hover */
+        }
+
+        /* Grande icona "+" al centro senza "-". Usa ::before per evitare caratteri indesiderati */
+        .card-add-book .icon-plus::before {
+            content: "+"; /* Mostra solo il simbolo "+" */
+            font-size: 96px; /* Dimensione grande */
+            font-weight: bold;
+            line-height: 1; /* Evita spazi verticali */
+        }
+
+        /* Stile personalizzato per il bottone Prenota */
+        .btn-success {
+            display: block;
+            width: 100%; /* Occupa l'intera larghezza della card */
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px; /* Bordi arrotondati */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Effetto hover */
+        }
+
+        .btn-success:hover {
+            background-color: #28a745; /* Verde più scuro */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Aggiunge un'ombra */
+        }
+
+        /* Stile per garantire che tutte le card abbiano la stessa altezza */
+        .card {
+            height: 100%;
+        }
+
+        /* Imposta un'altezza minima per garantire la consistenza */
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Assicura che il bottone sia in fondo */
+            min-height: 300px; /* Puoi regolare l'altezza minima in base alla necessità */
+        }
+
+        /* Card personalizzata per il bottone "Aggiungi Nuovo Libro" */
+        .card-add-book {
+            min-height: 300px; /* Allineata all'altezza minima delle altre card */
+        }
+    </style>
+</head>
+<body>
+    <!--NAVBAR-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container-fluid">
+            <div class="row w-100">
+                <div class="col-4 d-flex align-items-center">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-custom" th:href="@{/books}">LIBRI</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-custom ms-2" th:href="@{/authors}">AUTORI</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-4 d-flex justify-content-center align-items-center">
+                    <a class="navbar-brand" th:href="@{/}">
+                        <img th:src="@{/images/logo.png}" width="100" height="100" alt="Logo">
+                    </a>
+                </div>
+
+                <div class="col-4 d-flex justify-content-end align-items-center">
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item me-2" th:if="${#authorization.expression('isAuthenticated()')}">
+                                <a class="nav-link nav-link-custom" th:href="@{/myProfile}">PROFILO</a>
+                            </li>
+                            <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+                                <a class="nav-link nav-link-custom" th:href="@{/logout}">LOGOUT</a>
+                            </li>
+                            <li class="nav-item" th:if="${#authorization.expression('!isAuthenticated()')}">
+                                <a class="nav-link nav-link-custom" th:href="@{/login}">LOGIN</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container text-center my-4">
+        <div class="row justify-content-md-center">
+            <div class="col col-lg-6">
+                <h1 class="nav-brand mainText">LIBRI</h1>
+                <hr class="hr-style">
+            </div>
+        </div>
+    </div>
+
+    <div class="container-xl mx-auto my-2">
+        <div class="row mx-5 my-4 row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 justify-content-center">
+            <div th:if="${books==null or books.isEmpty()}" class="col-12">
+                <div class="alert alert-info" role="alert">
+                    Non ci sono libri.
+                </div>
+            </div>
+
+            <!-- Ciclo sui libri esistenti -->
+            <div th:each="book : ${books}" class="col">
+                <div class="card h-100 card-hover">
+                    <a th:href="@{/books/{id}(id=${book.id})}">
+                        <img th:src="@{${book.mainImagePath}}" class="card-img-top" alt="Book Image">
+                    </a>
+                    <div class="card-body">
+                        <h4 class="card-title text-center mb-3 mx-3" th:text="${book.title}">Book Title</h4>
+
+                        <!-- Bottoni di prenotazione: visualizzati solo per utenti autenticati non bibliotecari -->
+                        <div th:if="${book.reservedBy == null and #authorization.expression('isAuthenticated()') and !#authorization.expression('hasAuthority(''LIBRARIAN'')')}">
+                            <form th:action="@{/books/reserve/{id}(id=${book.id})}" method="post">
+                                <button type="submit" class="btn btn-success">Prenota</button>
+                            </form>
+                        </div>
+
+                        <!-- Mostra annulla prenotazione solo se il libro è prenotato dall'utente, e l'utente non è un bibliotecario -->
+                        <div th:if="${book.reservedBy != null and !#authorization.expression('hasAuthority(''LIBRARIAN'')')}">
+                            <div th:if="${book.reservedBy.credentials.email == #authentication.name}">
+                                <form th:action="@{/books/cancel/{id}(id=${book.id})}" method="post">
+                                    <button type="submit" class="btn btn-danger">Annulla Prenotazione</button>
+                                </form>
+                            </div>
+
+                            <!-- Messaggio se prenotato da qualcun altro, visibile a tutti -->
+                            <div th:if="${book.reservedBy.credentials.email != #authentication.name}">
+                                <p class="text-muted">Prenotato da <span th:text="${book.reservedBy.credentials.email}">utente</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Bottoni di modifica ed eliminazione solo per Librarian -->
+						<div class="d-flex justify-content-around w-100">
+						    <a th:if="${#authorization.expression('hasAuthority(''LIBRARIAN'')')}" class="btn btn-square btn-edit icon-edit" th:href="@{/librarian/editBook(id=${book.id})}">
+						    </a>
+						    <form th:if="${#authorization.expression('hasAuthority(''LIBRARIAN'')')}" th:action="@{/librarian/deleteAuthor}" method="post">
+						        <input type="hidden" name="id" th:value="${book.id}" />
+						        <button type="submit" class="btn btn-square btn-delete icon-delete"></button>
+						    </form>
+						</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottone Aggiungi Nuovo Libro come Card trasparente con bordi blu -->
+            <div th:if="${#authorization.expression('hasAuthority(''LIBRARIAN'')')}" class="col">
+                <a th:href="@{/librarian/addBook}" class="card card-add-book h-100">
+                    <span class="icon-plus"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

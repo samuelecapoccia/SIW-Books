@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Il Mio Libro Prenotato</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<!--NAVBAR-->
+	<nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+	    <div class="container-fluid">
+	        <div class="row w-100">
+	            <div class="col-4 d-flex align-items-center">
+	                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+	                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	                    <span class="navbar-toggler-icon"></span>
+	                </button>
+	                <div class="collapse navbar-collapse">
+	                    <ul class="navbar-nav me-auto">
+	                        <li class="nav-item">
+	                            <a class="nav-link nav-link-custom" th:href="@{/books}">LIBRI</a>
+	                        </li>
+	                        <li class="nav-item">
+	                            <a class="nav-link nav-link-custom ms-2" th:href="@{/authors}">AUTORI</a>
+	                        </li>
+	                    </ul>
+	                </div>
+	            </div>
+	
+	            <div class="col-4 d-flex justify-content-center align-items-center">
+	                <a class="navbar-brand" th:href="@{/}">
+	                    <img th:src="@{/images/logo.png}" width="100" height="100" alt="Logo">
+	                </a>
+	            </div>
+	
+	            <div class="col-4 d-flex justify-content-end align-items-center">
+	                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+	                    <ul class="navbar-nav">
+	                        <li class="nav-item me-2" th:if="${#authorization.expression('isAuthenticated()')}">
+	                            <a class="nav-link nav-link-custom" th:href="@{/myProfile}">PROFILO</a>
+	                        </li>
+	                        <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+	                            <a class="nav-link nav-link-custom" th:href="@{/logout}">LOGOUT</a>
+	                        </li>
+	                        <li class="nav-item" th:if="${#authorization.expression('!isAuthenticated()')}">
+	                            <a class="nav-link nav-link-custom" th:href="@{/login}">LOGIN</a>
+	                        </li>
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</nav>
+
+<div class="container">
+    <h1>Il Mio Libro Prenotato</h1>
+
+    <div th:if="${reservedBooks.isEmpty()}">
+        <p>Non hai prenotato alcun libro.</p>
+    </div>
+
+    <div th:each="book : ${reservedBooks}">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${book.title}">Titolo del libro</h5>
+                <form th:action="@{/books/cancel/{id}(id=${book.id})}" method="post">
+                    <button type="submit" class="btn btn-danger">Annulla Prenotazione</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

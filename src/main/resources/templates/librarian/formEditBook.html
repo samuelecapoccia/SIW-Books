@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/stile.css}" rel="stylesheet"> <!-- eventuale CSS personalizzato -->
+    <title th:text="${book.id != null} ? 'Modifica Libro'">Modifica Libro</title>
+    <style>
+        .container {
+            max-width: 800px;
+            margin-top: 20px;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .form-select, .form-control {
+            border-radius: 0.25rem;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+    </style>
+</head>
+<body>
+    <!--NAVBAR-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container-fluid">
+            <div class="row w-100">
+                <div class="col-4 d-flex align-items-center">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-custom" th:href="@{/books}">LIBRI</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-custom ms-2" th:href="@{/authors}">AUTORI</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-4 d-flex justify-content-center align-items-center">
+                    <a class="navbar-brand" th:href="@{/}">
+                        <img th:src="@{/images/logo.png}" width="100" height="100" alt="Logo">
+                    </a>
+                </div>
+
+                <div class="col-4 d-flex justify-content-end align-items-center">
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item me-2" th:if="${#authorization.expression('isAuthenticated()')}">
+                                <a class="nav-link nav-link-custom" th:href="@{/myProfile}">PROFILO</a>
+                            </li>
+                            <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+                                <a class="nav-link nav-link-custom" th:href="@{/logout}">LOGOUT</a>
+                            </li>
+                            <li class="nav-item" th:if="${#authorization.expression('!isAuthenticated()')}">
+                                <a class="nav-link nav-link-custom" th:href="@{/login}">LOGIN</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h2 th:text="${book.id != null} ? 'Modifica Libro'">Modifica Libro</h2>
+        
+        <!-- Sezione Libro -->
+        <form th:action="@{/librarian/editBook/{id}(id=${book.id})}" th:object="${book}" method="post" enctype="multipart/form-data">
+            <!-- Campo Titolo -->
+            <div class="mb-3">
+                <label for="title" class="form-label">Titolo</label>
+                <input type="text" class="form-control" id="title" th:field="*{title}" required>
+            </div>
+
+            <!-- Campo Anno di Pubblicazione -->
+            <div class="mb-3">
+                <label for="publicationYear" class="form-label">Anno di Pubblicazione</label>
+                <input type="number" class="form-control" id="publicationYear" th:field="*{publicationYear}" required>
+            </div>
+
+            <!-- Campo Genere -->
+            <div class="mb-3">
+                <label for="genre" class="form-label">Genere</label>
+                <input type="text" class="form-control" id="genre" th:field="*{genre}" required>
+            </div>
+
+            <!-- Campo ISBN -->
+            <div class="mb-3">
+                <label for="isbn" class="form-label">ISBN</label>
+                <input type="text" class="form-control" id="isbn" th:field="*{isbn}" required>
+            </div>
+
+            <!-- Campo Immagine Principale -->
+            <div class="mb-3">
+                <label for="mainImage" class="form-label">Immagine Principale</label>
+                <input type="file" class="form-control" id="mainImage" name="file">
+            </div>
+
+            <!-- Campo Autore -->
+            <div class="mb-3">
+                <label for="author" class="form-label">Autore</label>
+                <select class="form-select" id="author" th:field="*{author.id}" required>
+                    <option value="" th:text="'Seleziona un autore'" disabled selected></option>
+                    <option th:each="author : ${authors}" 
+                            th:value="${author.id}" 
+                            th:text="${author.name + ' ' + author.surname}"
+                            th:selected="${author.id == book.author.id ? 'selected' : ''}"></option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Salva Libro</button>
+        </form>
+    </div>
+
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

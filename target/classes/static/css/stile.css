@@ -1,0 +1,163 @@
+body {
+	background-color: #f5f5dc; /* Sfondo giallognolo sabbia */
+    font-family: 'Poppins', sans-serif;
+}
+
+@font-face {
+    font-family: 'Poppins'; /* Nome del font che utilizzerai nel CSS */
+    src: url('/css/fonts/Poppins-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins'; /* Nome del font che utilizzerai nel CSS */
+    src: url('/css/fonts/Poppins-Semibold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins'; /* Nome del font che utilizzerai nel CSS */
+    src: url('/css/fonts/Poppins-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+.gradient-form {
+    padding: 2rem; /* Aggiungi un po' di padding alla sezione del form */
+}
+
+.card {
+    max-width: 100%; /* Assicurati che la card non superi la larghezza del contenitore */
+    margin: auto; /* Centra la card orizzontalmente */
+    padding: 1.5rem; /* Aggiungi un po' di padding interno alla card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Migliora l'ombra per una maggiore visibilità */
+}
+
+.card-img-top{
+	width: 100%; /* Rende l'immagine larga quanto la card */
+    height: 150px; /* Imposta un'altezza fissa per tutte le immagini */
+    object-fit: contain; /* L'immagine si adatta all'interno della card mantenendo le proporzioni */
+    padding: 10px; /* Aggiunge un po' di spazio intorno all'immagine */
+    background-color: #f0f0f0; /* Colore di sfondo per quando l'immagine non riempie tutto lo spazio */
+    border-bottom: 1px solid #ddd; /* Separa visivamente l'immagine dal resto della card */
+}
+
+/* Corpo della card */
+.card-body {
+    padding: 2rem; /* Aggiungi padding interno alla card-body per migliorare l'allineamento del testo */
+}
+
+.card-title {
+     text-align: center;
+    margin: 0 1rem;
+    max-width: 90%;
+}
+
+.nav-link.navbar-elements {
+    background-color: white; /* Colore di sfondo del pulsante */
+    color: black;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link.navbar-elements:hover {
+    background-color: #0a0a0a; /* Colore di sfondo al passaggio del mouse */
+    color:white;
+}
+
+/* Input del form */
+.form-control {
+	border-radius: 25px;
+    padding: 1rem; /* Aggiungi padding per migliorare la leggibilità degli input */
+    font-size: 1rem; /* Imposta una dimensione del font adeguata */
+}
+
+/* Titolo e testi nella card */
+h3, h5 {
+    margin-bottom: 1rem; /* Aggiungi spazio sotto i titoli */
+}
+
+.text-center {
+    text-align: center; /* Allinea il testo al centro per il blocco del login */
+}
+
+.alert-danger {
+    border-radius: 10px;
+    background-color: #ff4d4d;
+    color: white;
+}
+
+/* Immagine di sfondo nella card */
+.card-img-large {
+    border-radius: 0; /* Rimuove il bordo arrotondato per l'immagine di sfondo */
+    height: auto; /* Assicura che l'immagine mantenga la sua proporzione */
+    width: 100%; /* Rende l'immagine larga quanto il contenitore */
+}
+
+/* Bottone di login */
+.btn-primary {
+    width: 100%; /* Rende il bottone largo quanto il contenitore per una migliore visualizzazione */
+}
+
+.navbar-nav {
+    margin-left: 20px; /* Questo sposterà tutti i link alla fine, separandoli dal logo */
+}
+
+/* Stile dei link nella navbar */
+.nav-link-custom {
+    color: black !important;
+    font-size: 2rem;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 30px;
+}
+
+/* Effetto al passaggio del mouse */
+.nav-link-custom:hover {
+    color: white !important;
+    background-color: #ffd700;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+/* Bottone del menu mobile */
+.navbar-toggler {
+    border-color: white;
+}
+
+.hr-style {
+	border: 0;
+	height: 4px;
+	background: linear-gradient(to right, #0a0a0a, #fff, #0a0a0a);
+	position: relative;
+	border-radius: 10px;
+	margin: 20px 0;
+}
+
+.hr-text {
+    position: relative;
+    border: none;
+    height: 1px;
+    background: #0a0a0a;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%281, 0, 0, 0.5%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.col-4.d-flex.justify-content-end {
+	        justify-content: flex-end; /* Allinea il contenuto completamente a destra */
+}
+	    		
+.navbar {
+            background: linear-gradient(135deg, #8b4513, #a0522d); /* Gradiente marrone legno */
+        }
+        
+.navbar-brand img {
+    border-radius: 50%;
+}

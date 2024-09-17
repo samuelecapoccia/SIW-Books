@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Dettagli Libro</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/stile.css" rel="stylesheet">
+    <style>
+        .icon-delete::before {
+            content: "\1F5D1"; /* Unicode del cestino */
+            font-size: 18px;
+        }
+        
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-size: 18px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .btn-delete:hover {
+            background-color: #c82333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-container {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        
+        .card {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+	<!--NAVBAR-->
+	    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+	        <div class="container-fluid">
+	            <div class="row w-100">
+	                <div class="col-4 d-flex align-items-center">
+	                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+	                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	                        <span class="navbar-toggler-icon"></span>
+	                    </button>
+	                    <div class="collapse navbar-collapse">
+	                        <ul class="navbar-nav me-auto">
+	                            <li class="nav-item">
+	                                <a class="nav-link nav-link-custom" th:href="@{/books}">LIBRI</a>
+	                            </li>
+								<li class="nav-item">
+									<a class="nav-link nav-link-custom" th:href="@{/authors}">AUTORI</a>
+								</li>
+	                        </ul>
+	                    </div>
+	                </div>
+	
+	                <div class="col-4 d-flex justify-content-center align-items-center">
+	                    <a class="navbar-brand" th:href="@{/}">
+	                        <img th:src="@{/images/logo.png}" width="100" height="100" alt="Logo">
+	                    </a>
+	                </div>
+	
+	                <div class="col-4 d-flex justify-content-end align-items-center">
+	                    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+	                        <ul class="navbar-nav">
+	                            <li class="nav-item me-2" th:if="${#authorization.expression('isAuthenticated()')}">
+	                                <a class="nav-link nav-link-custom" th:href="@{/myProfile}">PROFILO</a>
+	                            </li>
+	                            <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+	                                <a class="nav-link nav-link-custom" th:href="@{/logout}">LOGOUT</a>
+	                            </li>
+	                            <li class="nav-item" th:if="${#authorization.expression('!isAuthenticated()')}">
+	                                <a class="nav-link nav-link-custom" th:href="@{/login}">LOGIN</a>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Colonna sinistra: Dati del libro -->
+            <div class="col-md-6 d-flex">
+                <div class="d-flex align-items-start me-4">
+                    <img th:src="${book.mainImagePath}" alt="Copertina Libro" class="img-fluid" style="max-width: 200px;">
+                </div>
+                <div class="d-flex flex-column justify-content-center ms-5">
+                    <h2><strong th:text="${book.title}"></strong></h2>
+                    <p><strong>Data di Pubblicazione:</strong> <span th:text="${book.publicationYear}"></span></p>
+                    <p><strong>Genere:</strong> <span th:text="${book.genre}"></span></p>
+                    <p><strong>ISBN:</strong> <span th:text="${book.isbn}"></span></p>
+                </div>
+            </div>
+
+            <!-- Colonna destra: Dettagli dell'autore -->
+            <div class="col-md-6 d-flex justify-content-center align-items-center flex-column">
+                <div class="row">
+                    <div class="col-4 d-flex justify-content-center align-items-start">
+                        <img th:src="${author.profilePicPath}" alt="Autore" class="img-fluid rounded-circle" style="max-width: 150px;">
+                    </div>
+                    <div class="col-8">
+                        <div class="text-center">
+                            <h2><strong>Autore</strong></h2>
+							<p><strong>Nome:</strong> <span th:text="${author.name} + ' ' + ${author.surname}"></span></p>
+                            <p><strong>Data di Nascita:</strong> <span th:text="${author.birthDate}"></span></p>
+                            <p><strong>Biografia:</strong> <span th:text="${author.biography}"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
