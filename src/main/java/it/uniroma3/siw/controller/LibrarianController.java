@@ -38,11 +38,7 @@ public class LibrarianController {
 
     @GetMapping("/librarian/addBook")
     @PreAuthorize("hasRole('LIBRARIAN')")
-    public String showAddBookForm(Model model, Authentication auth) throws AccessDeniedException{
-    	System.out.println(credentialsService.getCredentials(auth.getName()).getRole());
-    	if(auth == null || credentialsService.getCredentials(auth.getName()).getRole().equals(Credentials.USER_ROLE)){
-    		throw new AccessDeniedException("Non autorizzato");
-    	}
+    public String showAddBookForm(Model model) {
     		model.addAttribute("book", new Book());
             model.addAttribute("authors", bookService.findAllAuthors());
             return "librarian/formNewBook"; // Template per aggiungere un nuovo libro
